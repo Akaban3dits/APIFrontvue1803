@@ -18,19 +18,30 @@ import { RouterLink, RouterView } from 'vue-router'
       </li>
       <li class="sidebar-list-item">
         <a>
-          <span>Statistics</span>
+          <span><RouterLink :to="{path: '/DUsuario'}">Departamentos</RouterLink></span>
         </a>
       </li>
       <li class="sidebar-list-item">
         <a>
-          <span>Inbox</span>
+          <span><RouterLink :to="{path: '/DUsuario'}">Empleados</RouterLink></span>
         </a>
       </li>
       <li class="sidebar-list-item">
         <a>
-          <span>Notifications</span>
+          <span><RouterLink :to="{path: '/DUsuario'}">Facturas</RouterLink></span>
         </a>
       </li>
+      <li class="sidebar-list-item">
+        <a>
+          <span><RouterLink :to="{path: '/DUsuario'}">Puestos</RouterLink></span>
+        </a>
+      </li>
+      <li class="sidebar-list-item">
+        <a>
+          <span><RouterLink :to="{path: '/DUsuario'}">Roles</RouterLink></span>
+        </a>
+      </li>
+      
     </ul>
   </div>
   </div>
