@@ -23,7 +23,7 @@ import { RouterLink, RouterView } from 'vue-router'
       </li>
       <li class="sidebar-list-item">
         <a>
-          <span><RouterLink :to="{path: '/DUsuario'}">Empleados</RouterLink></span>
+          <span><RouterLink :to="{path: '/DEmp'}">Empleados</RouterLink></span>
         </a>
       </li>
       <li class="sidebar-list-item">

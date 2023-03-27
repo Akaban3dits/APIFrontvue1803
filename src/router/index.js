@@ -19,6 +19,11 @@ import EDepa from '../components/CDepartamento/EDepa.vue'
 import DFac from '../components/CFactura/D.Fact.vue'
 import FCrear from '../components/CFactura/FCrear.vue'
 import EFac from '../components/CFactura/EFac.vue'
+import DEmp from '../components/CEmpleado/D.Emp.vue'
+import ECrear from '../components/CEmpleado/ECrear.vue'
+import EEmp from '../components/CEmpleado/EEmp.vue'
+
+
 import { createApp } from 'vue'
 
 const router = createRouter({
@@ -50,6 +55,11 @@ const router = createRouter({
       path: '/FCrear',
       name: 'FCrear',
       component: FCrear
+    },
+    {
+      path: '/ECrear',
+      name: 'ECrear',
+      component: ECrear
     },
     {
       path: '/PCrear',
@@ -97,6 +107,11 @@ const router = createRouter({
           path: '/DFac',
           name: 'DFac',
           component: DFac
+        },
+        {
+          path: '/DEmp',
+          name: 'DEmp',
+          component: DEmp
         }
 
 
@@ -133,6 +148,12 @@ const router = createRouter({
       path: '/EFac/:pkFactora',
       name: 'EFac',
       component: EFac
+
+    },
+    {
+      path: '/EEmp/:pkEmpleado',
+      name: 'EEmp',
+      component: EEmp
 
     }
   ]
