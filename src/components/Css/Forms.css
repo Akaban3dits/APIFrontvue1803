@@ -77,6 +77,19 @@ body {
     cursor: pointer;
     font-size: 16px;
     margin-top: auto;
+    text-decoration: none;
+}
+.submitBtn2 {
+    margin-left: auto;
+    padding: 15px 8px;
+    border: none;
+    background-color: var(--app-bg);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: auto;
+    text-decoration: none;
 }
   
 .submitBtn:hover {

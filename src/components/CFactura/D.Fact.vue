@@ -1,42 +1,39 @@
 <template>
-    <div class="app-content">
+  <div class="app-content">
     <div class="app-content-header">
-      <Router-Link :to="{path: '/Crear'}"><button class="app-content-headerButton3">Añadir</button></Router-Link>
+      <Router-Link :to="{path: '/FCrear'}"><button class="app-content-headerButton3">Añadir</button></Router-Link>
     </div>
     </div>
 <div class="table">
-  
     <div class="table-head">
-      <h4 class="colorh3">Cliente</h4>
-      </div>
+      <h4 class="colorh3">Facturas</h4>
+    </div>
     <div class="table-body">
       <div class="table-responsive">
         <table>
           <thead>
             <tr>
-              <th>PkCliente</th>
-              <th>Nombre</th>
-              <th>Apellidos</th>
-              <th>Telefono</th>
-              <th>Email</th>
-              <th>Direccion</th>
+              <th>PkFactura</th>
+              <th>R.Social</th>
+              <th>Fecha</th>
+              <th>RFC</th>
+              <th>Cliente</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="Clientes in Cliente" :key="Clientes.pkCliente">
-              <td>{{ Clientes.pkCliente }}</td>
-              <td>{{ Clientes.nombre }}</td>
-              <td>{{ Clientes.apellidos }}</td>
-              <td>{{ Clientes.telefono }}</td>
-              <td>{{ Clientes.email }}</td>
-              <td>{{ Clientes.direccion }}</td>
+            <tr v-for="fac in Factura" :key="fac.pkFactora">
+              <td>{{ fac.pkFactora }}</td>
+              <td>{{ fac.razonSocial}}</td>
+              <td>{{ DateFormat(fac.fecha) }}</td>
+              <td>{{ fac.rfc}}</td>
+              <td>{{ fac.fkCliente }}</td>
               <td>
                 <div class="btn-group" role="label" aria-label="">
                   <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->
-                  |<button type="button" v-on:click="borrarCliente(Clientes.pkCliente)" class="app-content-headerButton2">
-                    Eliminar</button> &nbsp; &nbsp; 
-                  <button type="button" v-on:click="editarCliente(Clientes.pkCliente)" class="app-content-headerButton">
+                  |<button type="button" v-on:click="borrarUsuario(fac.pkFactora)" class="app-content-headerButton2">
+                    Eliminar</button>    &nbsp; &nbsp; 
+                  <button type="button" v-on:click="editarUsuario(fac.pkFactora)" class="app-content-headerButton">
                     Editar</button>
                 </div>
               </td>
@@ -50,22 +47,23 @@
 
 <script>
 import axios from "axios";
+import dayjs from "dayjs";
 export default {
   components: {
   },
   data() {
     return {
-      Cliente: []
+      Factura: []
     };
   },
   created: function () {
-    this.consultarCliente();
+    this.consultarUsuario();
   },
   methods: {
-    consultarCliente() {
-      axios.get("https://localhost:7294/Cliente").then((result) => {
+    consultarUsuario() {
+      axios.get("https://localhost:7294/Factura").then((result) => {
         console.log(result.data);
-        this.Cliente = result.data.result;
+        this.Factura = result.data.result;
         // console.log(this.Usuarios[1].fkEmpleado);
         //   for (let i = 0; i < this.Usuarios.length; i++) {
         //     this.Empleado.push(this.Usuarios[i].fkEmpleado);
@@ -83,23 +81,27 @@ export default {
         //   }
       });
     },
-    borrarCliente(id) {
+    borrarUsuario(id) {
       var pregunta = window.confirm('Esta se seguro de eliminar este registro?');
 
       if (pregunta === true) {
-        axios.delete("https://localhost:7294/Cliente/" + id);
-        window.location.href = "DCliente";
+        axios.delete("https://localhost:7294/Factura/" + id);
+        window.location.href = "DFac";
 
       } else {
 
       }
 
     },
-    editarCliente() {
-      window.location.href = "Crear";
-
+    editarUsuario(pkFactora){
+      console.log(pkFactora);
+      this.$router.push("/EFac/" + pkFactora)
     },
 
+    DateFormat(fechaRegistro){
+      let fecha = dayjs(fechaRegistro).format('DD/MM/YYYY  H:mm:ss a')
+      return fecha
+    }
   },
 };
 </script>

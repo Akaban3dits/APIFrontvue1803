@@ -18,7 +18,7 @@ import { RouterLink, RouterView } from 'vue-router'
       </li>
       <li class="sidebar-list-item">
         <a>
-          <span><RouterLink :to="{path: '/DUsuario'}">Departamentos</RouterLink></span>
+          <span><RouterLink :to="{path: '/DDepa'}">Departamentos</RouterLink></span>
         </a>
       </li>
       <li class="sidebar-list-item">
@@ -28,17 +28,17 @@ import { RouterLink, RouterView } from 'vue-router'
       </li>
       <li class="sidebar-list-item">
         <a>
-          <span><RouterLink :to="{path: '/DUsuario'}">Facturas</RouterLink></span>
+          <span><RouterLink :to="{path: '/DFac'}">Facturas</RouterLink></span>
         </a>
       </li>
       <li class="sidebar-list-item">
         <a>
-          <span><RouterLink :to="{path: '/DUsuario'}">Puestos</RouterLink></span>
+          <span><RouterLink :to="{path: '/DPuesto'}">Puestos</RouterLink></span>
         </a>
       </li>
       <li class="sidebar-list-item">
         <a>
-          <span><RouterLink :to="{path: '/DUsuario'}">Roles</RouterLink></span>
+          <span><RouterLink :to="{path: '/DRol'}">Roles</RouterLink></span>
         </a>
       </li>
       

@@ -1,41 +1,33 @@
 <template>
   <div class="app-content">
     <div class="app-content-header">
-      <Router-Link :to="{path: '/UCrear'}"><button class="app-content-headerButton3">Añadir</button></Router-Link>
+      <Router-Link :to="{path: '/DCrear'}"><button class="app-content-headerButton3">Añadir</button></Router-Link>
     </div>
     </div>
 <div class="table">
     <div class="table-head">
-      <h4 class="colorh3">Usuario</h4>
+      <h4 class="colorh3">Departamentos</h4>
     </div>
     <div class="table-body">
       <div class="table-responsive">
         <table>
           <thead>
             <tr>
-              <th>PkUsuario</th>
-              <th>Usser</th>
-              <th>Password</th>
-              <th>Fecha de Registro</th>
-              <th>Empleado</th>
-              <th>Rol</th>
+              <th>ID</th>
+              <th>Departamentos</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="usuario in Usuario" :key="usuario.pkUsuario">
-              <td>{{ usuario.pkUsuario }}</td>
-              <td>{{ usuario.user}}</td>
-              <td>{{ usuario.password }}</td>
-              <td>{{ DateFormat(usuario.fechaRegistro ) }}</td>
-              <td>{{ usuario.fkEmpleado}}</td>
-              <td>{{ usuario.fkRol }}</td>
+            <tr v-for="depa in Departamentos" :key="depa.pkDepartamento">
+              <td>{{ depa.pkDepartamento }}</td>
+              <td>{{ depa.nombre}}</td>
               <td>
                 <div class="btn-group" role="label" aria-label="">
                   <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->
-                  |<button type="button" v-on:click="borrarUsuario(usuario.pkUsuario)" class="app-content-headerButton2">
+                  |<button type="button" v-on:click="borrarpuesto(depa.pkDepartamento)" class="app-content-headerButton2">
                     Eliminar</button>    &nbsp; &nbsp; 
-                  <button type="button" v-on:click="editarUsuario(usuario.pkUsuario)" class="app-content-headerButton">
+                  <button type="button" v-on:click="editarpuesto(depa.pkDepartamento)" class="app-content-headerButton">
                     Editar</button>
                 </div>
               </td>
@@ -49,23 +41,22 @@
 
 <script>
 import axios from "axios";
-import dayjs from "dayjs";
 export default {
   components: {
   },
   data() {
     return {
-      Usuario: []
+      Departamentos: []
     };
   },
   created: function () {
-    this.consultarUsuario();
+    this.consultarPuesto();
   },
   methods: {
-    consultarUsuario() {
-      axios.get("https://localhost:7294/Usuario").then((result) => {
+    consultarPuesto() {
+      axios.get("https://localhost:7294/Departamento").then((result) => {
         console.log(result.data);
-        this.Usuario = result.data.result;
+        this.Departamentos = result.data.result;
         // console.log(this.Usuarios[1].fkEmpleado);
         //   for (let i = 0; i < this.Usuarios.length; i++) {
         //     this.Empleado.push(this.Usuarios[i].fkEmpleado);
@@ -83,26 +74,21 @@ export default {
         //   }
       });
     },
-    borrarUsuario(id) {
+    borrarpuesto(id) {
       var pregunta = window.confirm('Esta se seguro de eliminar este registro?');
 
       if (pregunta === true) {
-        axios.delete("https://localhost:7294/Usuario/" + id);
-        window.location.href = "DUsuario";
+        axios.delete("https://localhost:7294/Departamento/" + id);
+        window.location.href = "DDepa";
 
       } else {
 
       }
 
     },
-    editarUsuario(pkUsuario){
-      console.log(pkUsuario);
-      this.$router.push("/EUsuario/" + pkUsuario)
-    },
-
-    DateFormat(fechaRegistro){
-      let fecha = dayjs(fechaRegistro).format('DD/MM/YYYY  H:mm:ss a')
-      return fecha
+    editarpuesto(pkDepartamento){
+      console.log(pkDepartamento);
+      this.$router.push("/EDepa/" + pkDepartamento)
     }
   },
 };

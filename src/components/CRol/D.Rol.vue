@@ -1,41 +1,33 @@
 <template>
   <div class="app-content">
     <div class="app-content-header">
-      <Router-Link :to="{path: '/UCrear'}"><button class="app-content-headerButton3">Añadir</button></Router-Link>
+      <Router-Link :to="{path: '/RCrear'}"><button class="app-content-headerButton3">Añadir</button></Router-Link>
     </div>
     </div>
 <div class="table">
     <div class="table-head">
-      <h4 class="colorh3">Usuario</h4>
+      <h4 class="colorh3">Roles</h4>
     </div>
     <div class="table-body">
       <div class="table-responsive">
         <table>
           <thead>
             <tr>
-              <th>PkUsuario</th>
-              <th>Usser</th>
-              <th>Password</th>
-              <th>Fecha de Registro</th>
-              <th>Empleado</th>
+              <th>ID</th>
               <th>Rol</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="usuario in Usuario" :key="usuario.pkUsuario">
-              <td>{{ usuario.pkUsuario }}</td>
-              <td>{{ usuario.user}}</td>
-              <td>{{ usuario.password }}</td>
-              <td>{{ DateFormat(usuario.fechaRegistro ) }}</td>
-              <td>{{ usuario.fkEmpleado}}</td>
-              <td>{{ usuario.fkRol }}</td>
+            <tr v-for="rol in Rol" :key="rol.pkRol">
+              <td>{{ rol.pkRol }}</td>
+              <td>{{ rol.nombre}}</td>
               <td>
                 <div class="btn-group" role="label" aria-label="">
                   <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->
-                  |<button type="button" v-on:click="borrarUsuario(usuario.pkUsuario)" class="app-content-headerButton2">
+                  |<button type="button" v-on:click="borrarrol(rol.pkRol)" class="app-content-headerButton2">
                     Eliminar</button>    &nbsp; &nbsp; 
-                  <button type="button" v-on:click="editarUsuario(usuario.pkUsuario)" class="app-content-headerButton">
+                  <button type="button" v-on:click="editarrol(rol.pkRol)" class="app-content-headerButton">
                     Editar</button>
                 </div>
               </td>
@@ -49,23 +41,22 @@
 
 <script>
 import axios from "axios";
-import dayjs from "dayjs";
 export default {
   components: {
   },
   data() {
     return {
-      Usuario: []
+      Rol: []
     };
   },
   created: function () {
-    this.consultarUsuario();
+    this.consultarRol();
   },
   methods: {
-    consultarUsuario() {
-      axios.get("https://localhost:7294/Usuario").then((result) => {
+    consultarRol() {
+      axios.get("https://localhost:7294/Rol").then((result) => {
         console.log(result.data);
-        this.Usuario = result.data.result;
+        this.Rol = result.data.result;
         // console.log(this.Usuarios[1].fkEmpleado);
         //   for (let i = 0; i < this.Usuarios.length; i++) {
         //     this.Empleado.push(this.Usuarios[i].fkEmpleado);
@@ -83,26 +74,21 @@ export default {
         //   }
       });
     },
-    borrarUsuario(id) {
+    borrarrol(id) {
       var pregunta = window.confirm('Esta se seguro de eliminar este registro?');
 
       if (pregunta === true) {
-        axios.delete("https://localhost:7294/Usuario/" + id);
-        window.location.href = "DUsuario";
+        axios.delete("https://localhost:7294/Rol/" + id);
+        window.location.href = "DRol";
 
       } else {
 
       }
 
     },
-    editarUsuario(pkUsuario){
-      console.log(pkUsuario);
-      this.$router.push("/EUsuario/" + pkUsuario)
-    },
-
-    DateFormat(fechaRegistro){
-      let fecha = dayjs(fechaRegistro).format('DD/MM/YYYY  H:mm:ss a')
-      return fecha
+    editarrol(pkRol){
+      console.log(pkRol);
+      this.$router.push("/ERol/" + pkRol)
     }
   },
 };
