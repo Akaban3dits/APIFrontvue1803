@@ -22,12 +22,17 @@
                 <label for="" class="label">Ciudad</label>
             </div>
             <div class="inputContainer">
-                <input type="number" class="input" placeholder="a" v-model="form.fkPuesto" id="fkrol">
-                <label for="" class="label">Puesto</label>
+                <label for="" class="label1">Puesto</label>
+                <select class="input" name="fkrol" id="fkrol" v-model="form.fkPuesto">
+                    <option v-for="pue in Puesto" :value="pue.pkPuesto" :key="pue.pkPuesto">{{ pue.nombre }}</option>
+                </select>
             </div>
             <div class="inputContainer">
-                <input type="number" class="input" placeholder="a" v-model="form.fkDepartamento" id="fkrol">
-                <label for="" class="label">Departamento</label>
+                <label for="" class="label1">Departamento</label>
+                <select class="input" name="fkrol" id="fkrol" v-model="form.fkDepartamento">
+                    <option v-for="dep in Departamento" :value="dep.pkDepartamento" :key="dep.pkDepartamento">{{ dep.nombre
+                    }}</option>
+                </select>
             </div>
             <div class="inputContainer" role="group" id="botonesopcion">
                 |<button type="submit" class="submitBtn">Agregar</button>|
@@ -61,6 +66,8 @@ export default {
                 "fkPuesto": "",
                 "fkDepartamento": ""
             },
+            Departamento: [],
+            Puesto: []
         }
     },
 
@@ -68,7 +75,7 @@ export default {
     methods: {
         agregarUsuario() {
 
-            
+
             axios.put("https://localhost:7294/Empleado?id=" + this.pkEmpleado, this.form).then
                 (result => {
                     if (result.status == 200) {
@@ -85,7 +92,7 @@ export default {
     },
     mounted: function (pkEmpleado) {
         this.pkEmpleado = this.$route.params.pkEmpleado;
-        const Fecha= this.form.fechaderegistro;
+        const Fecha = this.form.fechaderegistro;
         console.log(this.pkEmpleado);
         axios.get("https://localhost:7294/Empleado/" + this.pkEmpleado)
             .then(datos => {
@@ -98,6 +105,14 @@ export default {
                 this.form.fkDepartamento = datos.data.value.result.fkDepartamento;
                 console.log(this.form);
             });
+        axios.get("https://localhost:7294/Puesto").then((result) => {
+            console.log(result.data);
+            this.Puesto = result.data.result;
+        });
+        axios.get("https://localhost:7294/Departamento").then((result) => {
+            console.log(result.data);
+            this.Departamento = result.data.result;
+        });
     }
 }
 </script>

@@ -22,12 +22,16 @@
         <label for="" class="label">Ciudad</label>
       </div>
       <div class="inputContainer">
-        <input type="text" class="input" placeholder="a" v-model="Empleado.fkpuesto" id="rol">
-        <label for="" class="label">Puesto</label>
+        <label for="" class="label1">Puesto</label>
+        <select class="input" name="fkrol" id="fkrol" v-model="Empleado.fkpuesto">
+          <option v-for="pue in Puesto" :value="pue.pkPuesto" :key="pue.pkPuesto">{{ pue.nombre }}</option>
+        </select>
       </div>
       <div class="inputContainer">
-        <input type="text" class="input" placeholder="a" v-model="Empleado.fkdepartamento" id="rol">
-        <label for="" class="label">Empleado</label>
+        <label for="" class="label1">Departamento</label>
+        <select class="input" name="fkrol" id="fkrol" v-model="Empleado.fkdepartamento">
+          <option v-for="dep in Departamento" :value="dep.pkDepartamento" :key="dep.pkDepartamento">{{ dep.nombre }}</option>
+        </select>
       </div>
       <div class="inputContainer" role="group" id="botonesopcion">
         |<button type="submit" class="submitBtn">Agregar</button>|
@@ -49,10 +53,15 @@ export default {
   data() {
     return {
       Empleado: {},
-      smg: ""
+      smg: "",
+      Departamento: [],
+      Puesto: []
+
     };
   },
-
+  created: function () {
+    this.consultar();
+  },
   methods: {
     formulario() {
       console.log(this.Empleado);
@@ -75,6 +84,16 @@ export default {
         }
       });
     },
+    consultar(){
+      axios.get("https://localhost:7294/Puesto").then((result) => {
+        console.log(result.data);
+        this.Puesto = result.data.result;
+      });
+      axios.get("https://localhost:7294/Departamento").then((result) => {
+        console.log(result.data);
+        this.Departamento= result.data.result;
+      });
+    }
   },
 };
 </script>

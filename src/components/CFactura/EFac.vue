@@ -14,8 +14,11 @@
                 <label for="" class="label">RFC</label>
             </div>
             <div class="inputContainer">
-                <input type="number" class="input" placeholder="a" v-model="form.fkCliente" id="fkrol">
-                <label for="" class="label">Cliente</label>
+                <label for="" class="label1">Cliente</label>
+                <select class="input" name="fkrol" id="fkrol" v-model="form.fkCliente">
+                    <option v-for="clie in Cliente" :value="clie.pkCliente" :key="clie.pkCliente">{{ clie.nombre
+                    }}</option>
+                </select>
             </div>
             <div class="inputContainer" role="group" id="botonesopcion">
                 |<button type="submit" class="submitBtn">Agregar</button>|
@@ -46,6 +49,7 @@ export default {
                 "rfc": "",
                 "fkCliente": ""
             },
+            Cliente: []
         }
     },
 
@@ -53,7 +57,7 @@ export default {
     methods: {
         agregarUsuario() {
 
-            
+
             axios.put("https://localhost:7294/Factura?id=" + this.pkFactora, this.form).then
                 (result => {
                     if (result.status == 200) {
@@ -71,14 +75,19 @@ export default {
     mounted: function (pkFactora) {
         this.pkFactora = this.$route.params.pkFactora;
         console.log(this.pkFactora);
-        axios.get("https://localhost:7294/Usuario/" + this.pkFactora)
+        axios.get("https://localhost:7294/Factura/" + this.pkFactora)
             .then(datos => {
                 this.form.pkFactora = datos.data.value.result.pkFactora;
                 this.form.razonSocial = datos.data.value.result.razonSocial;
-                this.form.rfc= datos.data.value.result.rfc;
+                this.form.rfc = datos.data.value.result.rfc;
                 this.form.fkCliente = datos.data.value.result.fkCliente;
                 console.log(this.form);
             });
+        axios.get("https://localhost:7294/Cliente").then((result) => {
+            console.log(result.data);
+            this.Cliente = result.data.result;
+        });
     }
+
 }
 </script>

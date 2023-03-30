@@ -14,19 +14,23 @@
       </div>
 
       <div class="inputContainer">
-        <input type="text" class="input" placeholder="a" v-model="Usuarios.emp" id="emp">
-        <label for="" class="label">Empleado</label>
+        <label for="" class="label1">Empleados</label>
+        <select class="input" name="fkempleado" id="fkempleado" v-model="Usuarios.fkEmpleado">
+          <option v-for="emp in Empleado" :value="emp.pkEmpleado" :key="emp.pkEmpleado">{{ emp.nombre }}</option>
+        </select>
       </div>
       <div class="inputContainer">
-        <input type="text" class="input" placeholder="a" v-model="Usuarios.rol" id="rol">
-        <label for="" class="label">Rol</label>
+        <label for="" class="label1">Roles</label>
+        <select class="input" name="fkrol" id="fkrol" v-model="Usuarios.fkRol">
+          <option v-for="rol in Rol" :value="rol.pkRol" :key="rol.pkRol">{{ rol.nombre }}</option>
+        </select>
       </div>
       <div class="inputContainer" role="group" id="botonesopcion">
         |<button type="submit" class="submitBtn">Agregar</button>|
-        |<router-link :to="{ path: '/DUsuario' }" class="submitBtn" >Cancelar </router-link>|
+        |<router-link :to="{ path: '/DUsuario' }" class="submitBtn">Cancelar </router-link>|
       </div>
-      <router-link :to="{ path: '/DUsuario' }" class="submitBtn" id="finaliza"
-        style="display: none;" text-decoration="none">Finalizar</router-link>
+      <router-link :to="{ path: '/DUsuario' }" class="submitBtn" id="finaliza" style="display: none;"
+        text-decoration="none">Finalizar</router-link>
 
       <div id="alert" style="display:none;" class="alert alert-success" role="alert">
         {{ smg }}
@@ -41,8 +45,13 @@ export default {
   data() {
     return {
       Usuarios: {},
-      smg: ""
+      smg: "",
+      Empleado: [],
+      Rol: []
     };
+  },
+  created: function () {
+    this.consultar();
   },
 
   methods: {
@@ -54,8 +63,8 @@ export default {
         User: this.Usuarios.us,
         Password: this.Usuarios.pass,
         FechaRegistro: hoy.toISOString(),
-        FkEmpleado: this.Usuarios.emp,
-        FkRol: this.Usuarios.rol
+        FkEmpleado: this.Usuarios.fkEmpleado,
+        FkRol: this.Usuarios.fkRol
       };
 
       axios.post("https://localhost:7294/Usuario", datosEnviar).then((result) => {
@@ -67,7 +76,20 @@ export default {
           console.log(result);
         }
       });
+
     },
+    consultar() {
+      axios.get("https://localhost:7294/Rol").then((result) => {
+        console.log(result.data);
+        this.Rol = result.data.result;
+      });
+      axios.get("https://localhost:7294/Empleado").then((result) => {
+        console.log(result.data);
+        this.Empleado = result.data.result;
+      });
+
+
+    }
   },
 };
 </script>

@@ -14,16 +14,19 @@
       </div>
 
       <div class="inputContainer">
-        <input type="number" class="input" placeholder="a" v-model="Factura.fkCliente" id="emp">
-        <label for="" class="label">Cliente</label>
+        <label for="" class="label1">Cliente</label>
+        <select class="input" name="fkrol" id="fkrol" v-model="Factura.fkCliente">
+          <option v-for="clie in Cliente" :value="clie.pkCliente" :key="clie.pkCliente">{{ clie.nombre
+          }}</option>
+        </select>
       </div>
 
       <div class="inputContainer" role="group" id="botonesopcion">
         |<button type="submit" class="submitBtn">Agregar</button>|
-        |<router-link :to="{ path: '/DFac' }" class="submitBtn" >Cancelar </router-link>|
+        |<router-link :to="{ path: '/DFac' }" class="submitBtn">Cancelar </router-link>|
       </div>
-      <router-link :to="{ path: '/DFac' }" class="submitBtn" id="finaliza"
-        style="display: none;" text-decoration="none">Finalizar</router-link>
+      <router-link :to="{ path: '/DFac' }" class="submitBtn" id="finaliza" style="display: none;"
+        text-decoration="none">Finalizar</router-link>
 
       <div id="alert" style="display:none;" class="alert alert-success" role="alert">
         {{ smg }}
@@ -38,10 +41,13 @@ export default {
   data() {
     return {
       Factura: {},
-      smg: ""
+      smg: "",
+      Cliente: []
     };
   },
-
+  created: function () {
+    this.consultar();
+  },
   methods: {
     formulario() {
       console.log(this.Factura);
@@ -64,6 +70,12 @@ export default {
         }
       });
     },
+    consultar(){
+      axios.get("https://localhost:7294/Cliente").then((result) => {
+        console.log(result.data);
+        this.Cliente = result.data.result;
+      });
+    }
   },
 };
 </script>

@@ -14,12 +14,16 @@
                 <label for="" class="label">Password</label>
             </div>
             <div class="inputContainer">
-                <input type="number" class="input" placeholder="a" v-model="form.fkempleado" id="fkempleado">
-                <label for="" class="label">Fkempleado</label>
+                <label for="" class="label1">Empleados</label>
+                <select class="input" name="fkempleado" id="fkempleado" v-model="form.fkEmpleado">
+                    <option v-for="emp in Empleado" :value="emp.pkEmpleado" :key="emp.pkEmpleado">{{ emp.nombre }}</option>
+                </select>
             </div>
             <div class="inputContainer">
-                <input type="number" class="input" placeholder="a" v-model="form.fkrol" id="fkrol">
-                <label for="" class="label">Fkrol</label>
+                <label for="" class="label1">Roles</label>
+                <select class="input" name="fkrol" id="fkrol" v-model="form.fkRol">
+                    <option v-for="rol in Rol" :value="rol.pkRol" :key="rol.pkRol">{{ rol.nombre }}</option>
+                </select>
             </div>
             <div class="inputContainer" role="group" id="botonesopcion">
                 |<button type="submit" class="submitBtn">Agregar</button>|
@@ -48,9 +52,11 @@ export default {
                 "pkUsuario": "",
                 "user": "",
                 "password": "",
-                "fkempleado": "",
-                "fkrol": "",
+                "fkEmpleado": "",
+                "fkRol": "",
             },
+            Rol: [],
+            Empleado:[]
         }
     },
 
@@ -58,7 +64,7 @@ export default {
     methods: {
         agregarUsuario() {
 
-            
+
             axios.put("https://localhost:7294/Usuario?id=" + this.pkUsuario, this.form).then
                 (result => {
                     if (result.status == 200) {
@@ -69,23 +75,33 @@ export default {
                         console.log(result.data.result);
                     }
 
+
                 });
+                
 
         }
     },
     mounted: function (pkUsuario) {
         this.pkUsuario = this.$route.params.pkUsuario;
-        const Fecha= this.form.fechaderegistro;
+        const Fecha = this.form.fechaderegistro;
         console.log(this.pkUsuario);
         axios.get("https://localhost:7294/Usuario/" + this.pkUsuario)
             .then(datos => {
                 this.form.pkUsuario = datos.data.value.result.pkUsuario;
                 this.form.user = datos.data.value.result.user;
                 this.form.password = datos.data.value.result.password;
-                this.form.fkempleado = datos.data.value.result.fkempleado;
-                this.form.fkrol = datos.data.value.result.fkrol;
+                this.form.fkEmpleado = datos.data.value.result.fkEmpleado;
+                this.form.fkRol = datos.data.value.result.fkRol;
                 console.log(this.form);
             });
+        axios.get("https://localhost:7294/Rol").then((result) => {
+            console.log(result.data);
+            this.Rol = result.data.result;
+        });
+        axios.get("https://localhost:7294/Empleado").then((result) => {
+            console.log(result.data);
+            this.Empleado = result.data.result;
+        });
     }
 }
 </script>

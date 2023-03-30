@@ -28,8 +28,8 @@
               <td>{{ usuario.user}}</td>
               <td>{{ usuario.password }}</td>
               <td>{{ DateFormat(usuario.fechaRegistro ) }}</td>
-              <td>{{ usuario.fkEmpleado}}</td>
-              <td>{{ usuario.fkRol }}</td>
+              <td>{{ Empleado.find(e => e.pkEmpleado == usuario.fkEmpleado)?.nombre }}</td>
+              <td>{{ Rol.find(e => e.pkRol == usuario.fkRol)?.nombre  }}</td>
               <td>
                 <div class="btn-group" role="label" aria-label="">
                   <!-- |<router-link :to="{name:'editar',param:{id:articulo.id}}" class="btn btn-info">Editar</router-link> | -->
@@ -55,32 +55,33 @@ export default {
   },
   data() {
     return {
-      Usuario: []
+      Usuario: [],
+      Empleado: [],
+      Rol: []
     };
   },
   created: function () {
     this.consultarUsuario();
+    this.consultarEmpleado();
+    this.consultarRol();
   },
   methods: {
     consultarUsuario() {
       axios.get("https://localhost:7294/Usuario").then((result) => {
         console.log(result.data);
         this.Usuario = result.data.result;
-        // console.log(this.Usuarios[1].fkEmpleado);
-        //   for (let i = 0; i < this.Usuarios.length; i++) {
-        //     this.Empleado.push(this.Usuarios[i].fkEmpleado);
-        //   }
-        //   if (this.Empleado.length != 0) {
-        //     for (let i = 0; i < this.Empleado.length; i++) {
-        //       axios.get("https://localhost:7051/Empleado?id=" + this.Empleado[i]).then((result) => {
-        //         this.nombresempleados = result.data.result;
-        //         console.log(result.data.result.apellidos);
-        //       });
-        //     }
-        //   }
-        //   else {
-        //     console.log("Array empleados no lleno");
-        //   }
+      });
+    },
+    consultarEmpleado() {
+      axios.get("https://localhost:7294/Empleado").then((result) => {
+        console.log(result.data);
+        this.Empleado = result.data.result;
+      });
+    },
+    consultarRol() {
+      axios.get("https://localhost:7294/Rol").then((result) => {
+        console.log(result.data);
+        this.Rol = result.data.result;
       });
     },
     borrarUsuario(id) {
